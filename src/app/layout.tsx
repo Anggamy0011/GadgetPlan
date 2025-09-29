@@ -20,9 +20,8 @@ const parkinsans = Parkinsans({
 });
 
 export const metadata: Metadata = {
-  title: "CodeGuide Starter Kit",
-  description:
-    "A modern Next.js starter with TypeScript, TailwindCSS, shadcn/ui, Vercel AI SDK, Clerk, and Supabase",
+  title: "GadgetPlan - Premium iPhone Store & Repair",
+  description: "Your one-stop destination for iPhones, accessories, and professional repair services",
 };
 
 export default function RootLayout({
@@ -38,7 +37,7 @@ export default function RootLayout({
         >
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >

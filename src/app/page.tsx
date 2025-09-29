@@ -1,191 +1,198 @@
-"use client";
+'use client';
 
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import Chat from "@/components/chat";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { checkEnvironmentVariables } from "@/lib/env-check";
-import {
-  Copy,
-  CheckCircle,
-  AlertCircle,
-  Zap,
-  Database,
-  Shield,
-  ExternalLink,
-} from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
-import Image from "next/image";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { ShoppingCart, Wrench } from 'lucide-react';
+import Link from 'next/link';
+import { Navbar } from '@/components/navbar';
+import { ShiningText } from '@/components/ui/shining-text';
 
-export default function Home() {
-  const envStatus = checkEnvironmentVariables();
+// Define service type
+type Service = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+};
 
+
+
+// (no featured products section on this page)
+
+// Mock data for services
+const popularServices: Service[] = [
+  {
+    id: 1,
+    name: 'Perbaikan Layar',
+    description: 'Ganti layar retak atau rusak dengan kualitas profesional',
+    price: 1200000,
+    category: 'Layar'
+  },
+  {
+    id: 2,
+    name: 'Ganti Baterai',
+    description: 'Mengganti baterai yang menurun dengan baterai baru asli',
+    price: 450000,
+    category: 'Baterai'
+  },
+  {
+    id: 3,
+    name: 'Kerusakan Air',
+    description: 'Pembersihan dan perbaikan profesional untuk perangkat terkena cairan',
+    price: 850000,
+    category: 'Cairan'
+  }
+];
+
+
+
+
+
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Hero Section */}
-      <div className="text-center py-12 sm:py-16 relative px-4">
-        <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <ThemeToggle />
-            <SignedOut>
-              <SignInButton>
-                <Button size="sm" className="text-xs sm:text-sm">
-                  Sign In
+    <div className="min-h-screen bg-[#FDFEFF]">
+      <Navbar />
+      
+      <div className="px-[154px]">
+        {/* Hero Section */}
+        <section className="bg-white text-[#002B50] pt-[50px] pb-12 sm:pb-16 md:pb-20">
+          <div className="flex flex-col items-center text-center">
+            <div>
+              <ShiningText 
+              text="Toko & Layanan Perbaikan iPhone Premium" 
+              className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 py-4"
+              duration={3}
+            />
+              <p className="text-base sm:text-lg mb-8 text-gray-600">Tujuan satu pintu untuk iPhone, aksesori, dan layanan perbaikan profesional</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" className="bg-[#002B50] text-[#FDFEFF] hover:bg-[#002B50]/90" asChild>
+                  <Link href="/products" className="flex items-center">
+                    <ShoppingCart className="mr-2 h-5 w-5" />
+                    Belanja Sekarang
+                  </Link>
                 </Button>
-              </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-4">
-          <Image
-            src="/codeguide-logo.png"
-            alt="CodeGuide Logo"
-            width={50}
-            height={50}
-            className="rounded-xl sm:w-[60px] sm:h-[60px]"
-          />
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 bg-clip-text text-transparent font-parkinsans">
-            CodeGuide Starter
-          </h1>
-        </div>
-        <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
-          Build faster with your AI coding agent
-        </p>
-      </div>
-
-      <main className="container mx-auto px-4 sm:px-6 pb-12 sm:pb-8 max-w-5xl">
-        {envStatus.allConfigured ? (
-          <div className="text-center mb-8">
-            <div className="text-4xl sm:text-5xl mb-2">🎉</div>
-            <div className="font-bold text-lg sm:text-xl mb-1">All Set!</div>
-            <div className="text-sm sm:text-base text-muted-foreground">
-              Ready for development
+                <Button size="lg" variant="ghost" className="text-[#002B50] hover:bg-transparent" asChild>
+                  <Link href="/servicego" className="flex items-center">
+                    <Wrench className="mr-2 h-5 w-5" />
+                    Layanan Perbaikan
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
-        ) : (
-          <>
-            <div className="text-center mb-6">
-              <div className="text-4xl sm:text-5xl mb-2">⚠️</div>
-              <div className="font-semibold text-lg sm:text-xl mb-1">
-                Setup Required
-              </div>
-              <div className="text-sm sm:text-base text-muted-foreground">
-                Retrieve keys for environment variables
-              </div>
-            </div>
+        </section>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-              {/* Clerk */}
-              <div className="text-center p-3 sm:p-4 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10">
-                <div className="flex justify-center mb-3">
-                  {envStatus.clerk ? (
-                    <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-green-500" />
-                  ) : (
-                    <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-blue-500" />
-                  )}
+      
+
+      {/* Popular Services */}
+      <section className="py-12 sm:py-16 bg-gray-50">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#002B50]">Layanan Perbaikan Populer</h2>
+          <Button variant="ghost" className="text-[#002B50] hover:bg-transparent" asChild>
+            <Link href="/servicego">Lihat Semua Layanan</Link>
+          </Button>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {popularServices.map((service) => (
+            <Card key={service.id} className="border border-gray-200 hover:shadow-lg transition-shadow bg-white">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Wrench className="h-5 w-5 text-[#002B50]" />
+                  {service.name}
+                </CardTitle>
+                <CardDescription className="text-gray-600 line-clamp-2">{service.description}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-between items-center">
+                  <span className="text-xl font-bold text-[#002B50]">
+                    Rp {service.price.toLocaleString('id-ID')}
+                  </span>
+                  <Badge variant="secondary" className="bg-[#002B50]/10 text-[#002B50] border-[#002B50]/20">{service.category}</Badge>
                 </div>
-                <div className="font-semibold mb-2 text-sm sm:text-base">
-                  Clerk Auth
-                </div>
-                <div className="text-xs text-muted-foreground mb-3">
-                  {envStatus.clerk ? "✓ Ready" : "Setup required"}
-                </div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() =>
-                    window.open("https://dashboard.clerk.com", "_blank")
-                  }
-                  className="w-full text-xs sm:text-sm"
-                >
-                  <ExternalLink className="w-3 h-3 mr-1" />
-                  Dashboard
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full bg-[#002B50] hover:bg-[#002B50]/90 text-[#FDFEFF]" asChild>
+                  <Link href={`/servicego/book/${service.id}`}>Pesan Layanan</Link>
                 </Button>
-              </div>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </section>
 
-              {/* Supabase */}
-              <div className="text-center p-3 sm:p-4 rounded-lg bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/10 dark:to-emerald-900/10">
-                <div className="flex justify-center mb-3">
-                  {envStatus.supabase ? (
-                    <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-green-500" />
-                  ) : (
-                    <Database className="w-6 h-6 sm:w-8 sm:h-8 text-green-500" />
-                  )}
-                </div>
-                <div className="font-semibold mb-2 text-sm sm:text-base">
-                  Supabase DB
-                </div>
-                <div className="text-xs text-muted-foreground mb-3">
-                  {envStatus.supabase ? "✓ Ready" : "Setup required"}
-                </div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() =>
-                    window.open("https://supabase.com/dashboard", "_blank")
-                  }
-                  className="w-full text-xs sm:text-sm"
-                >
-                  <ExternalLink className="w-3 h-3 mr-1" />
-                  Dashboard
-                </Button>
-              </div>
-
-              {/* AI */}
-              <div className="text-center p-3 sm:p-4 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/10 dark:to-pink-900/10 sm:col-span-2 md:col-span-1">
-                <div className="flex justify-center mb-3">
-                  {envStatus.ai ? (
-                    <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-green-500" />
-                  ) : (
-                    <Zap className="w-6 h-6 sm:w-8 sm:h-8 text-purple-500" />
-                  )}
-                </div>
-                <div className="font-semibold mb-2 text-sm sm:text-base">
-                  AI SDK
-                </div>
-                <div className="text-xs text-muted-foreground mb-3">
-                  {envStatus.ai ? "✓ Ready" : "Optional"}
-                </div>
-                <div className="grid grid-cols-2 gap-1 sm:gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() =>
-                      window.open("https://platform.openai.com", "_blank")
-                    }
-                    className="text-xs px-1 sm:px-2"
-                  >
-                    OpenAI
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() =>
-                      window.open("https://console.anthropic.com", "_blank")
-                    }
-                    className="text-xs px-1 sm:px-2"
-                  >
-                    Anthropic
-                  </Button>
-                </div>
-              </div>
+      {/* CTA Section */}
+      <section className="py-12 sm:py-16 bg-[#002B50] text-[#FDFEFF] rounded-[25px] mx-4">
+        <div className="text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Bergabung dengan Komunitas Kami</h2>
+          <p className="text-base sm:text-lg mb-8 max-w-md mx-auto opacity-90">Tetap terupdate dengan kabar iPhone terbaru, penawaran eksklusif, dan tips perbaikan</p>
+          <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-2">
+            <div className="relative flex-1">
+              <input 
+                type="email" 
+                placeholder="Masukkan alamat email Anda" 
+                className="w-full px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-[#FDFEFF] placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-300 text-sm"
+              />
+              <div className="absolute inset-0 rounded-full border border-transparent bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
             </div>
-          </>
-        )}
+            <Button className="bg-[#FDFEFF] text-[#002B50] hover:bg-[#FDFEFF]/90 w-full sm:w-auto rounded-full px-8 font-semibold transition-all duration-300 hover:scale-105">
+              Berlangganan
+            </Button>
+          </div>
+        </div>
+      </section>
 
-        {/* Chat Section */}
-        <SignedIn>
-          {envStatus.allConfigured && (
-            <div className="mt-6 sm:mt-8">
-              <Chat />
+      {/* Footer */}
+      <footer className="bg-white text-gray-800 border-t border-gray-200">
+        <div className="py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center mb-4">
+                <img src="/logo-gadgetplan-biru.png" alt="Logo GadgetPlan" className="w-[88px] h-[56px] object-contain" />
+              </div>
+              <p className="text-sm text-gray-600">Tujuan satu pintu untuk iPhone, aksesori, dan layanan perbaikan profesional.</p>
             </div>
-          )}
-        </SignedIn>
-      </main>
+            
+            <div>
+              <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-900">Belanja</h3>
+              <ul className="space-y-2">
+                <li><Link href="/products" className="text-sm text-gray-600 hover:text-blue-700 block">Semua Produk</Link></li>
+                <li><Link href="/products?category=iphone" className="text-sm text-gray-600 hover:text-blue-700 block">iPhone</Link></li>
+                <li><Link href="/products?category=accessories" className="text-sm text-gray-600 hover:text-blue-700 block">Aksesori</Link></li>
+                <li><Link href="/products?category=case" className="text-sm text-gray-600 hover:text-blue-700 block">Casing</Link></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-900">Layanan</h3>
+              <ul className="space-y-2">
+                <li><Link href="/servicego" className="text-sm text-gray-600 hover:text-blue-700 block">Layanan Perbaikan</Link></li>
+                <li><Link href="/servicego#screen-repair" className="text-sm text-gray-600 hover:text-blue-700 block">Perbaikan Layar</Link></li>
+                <li><Link href="/servicego#battery-repair" className="text-sm text-gray-600 hover:text-blue-700 block">Ganti Baterai</Link></li>
+                <li><Link href="/servicego#water-damage" className="text-sm text-gray-600 hover:text-blue-700 block">Kerusakan Air</Link></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-900">Dukungan</h3>
+              <ul className="space-y-2">
+                <li><Link href="/contact" className="text-sm text-gray-600 hover:text-blue-700 block">Hubungi Kami</Link></li>
+                <li><Link href="/faq" className="text-sm text-gray-600 hover:text-blue-700 block">FAQ</Link></li>
+                <li><Link href="/shipping" className="text-sm text-gray-600 hover:text-blue-700 block">Info Pengiriman</Link></li>
+                <li><Link href="/warranty" className="text-sm text-gray-600 hover:text-blue-700 block">Garansi</Link></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-200 mt-12 pt-8 text-center text-sm text-gray-500">
+            <p>&copy; {new Date().getFullYear()} GadgetPlan. Semua hak dilindungi.</p>
+          </div>
+        </div>
+      </footer>
     </div>
+  </div>
   );
 }
