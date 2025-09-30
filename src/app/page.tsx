@@ -66,7 +66,7 @@ export default function HomePage() {
               className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 py-4"
               duration={3}
             />
-              <p className="text-base sm:text-lg mb-8 text-gray-600">Tujuan satu pintu untuk iPhone, aksesori, dan layanan perbaikan profesional</p>
+              <p className="text-base sm:text-lg mb-8 text-[#002B50]/70">Tujuan satu pintu untuk iPhone, aksesori, dan layanan perbaikan profesional</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-[#002B50] text-[#FDFEFF] hover:bg-[#002B50]/90" asChild>
                   <Link href="/products" className="flex items-center">
@@ -88,7 +88,7 @@ export default function HomePage() {
       
 
       {/* Popular Services */}
-      <section className="py-12 sm:py-16 bg-gray-50">
+      <section className="py-12 sm:py-16 bg-[#002B50]/5">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <h2 className="text-2xl sm:text-3xl font-bold text-[#002B50]">Layanan Perbaikan Populer</h2>
           <Button variant="ghost" className="text-[#002B50] hover:bg-transparent" asChild>
@@ -98,13 +98,13 @@ export default function HomePage() {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {popularServices.map((service) => (
-            <Card key={service.id} className="border border-gray-200 hover:shadow-lg transition-shadow bg-white">
+            <Card key={service.id} className="border border-[#002B50]/20 hover:shadow-lg transition-shadow bg-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Wrench className="h-5 w-5 text-[#002B50]" />
                   {service.name}
                 </CardTitle>
-                <CardDescription className="text-gray-600 line-clamp-2">{service.description}</CardDescription>
+                <CardDescription className="text-[#002B50]/70 line-clamp-2">{service.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex justify-between items-center">
@@ -146,18 +146,18 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white text-gray-800 border-t border-gray-200">
+      <footer className="bg-white text-[#002B50] border-t border-gray-200">
         <div className="py-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center mb-4">
                 <img src="/logo-gadgetplan-biru.png" alt="Logo GadgetPlan" className="w-[88px] h-[56px] object-contain" />
               </div>
-              <p className="text-sm text-gray-600">Tujuan satu pintu untuk iPhone, aksesori, dan layanan perbaikan profesional.</p>
+              <p className="text-sm text-[#002B50]/80">Tujuan satu pintu untuk iPhone, aksesori, dan layanan perbaikan profesional.</p>
             </div>
             
             <div>
-              <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-900">Belanja</h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-4 text-[#002B50]">Belanja</h3>
               <ul className="space-y-2">
                 <li><Link href="/products" className="text-sm text-gray-600 hover:text-blue-700 block">Semua Produk</Link></li>
                 <li><Link href="/products?category=iphone" className="text-sm text-gray-600 hover:text-blue-700 block">iPhone</Link></li>
@@ -167,7 +167,7 @@ export default function HomePage() {
             </div>
             
             <div>
-              <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-900">Layanan</h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-4 text-[#002B50]">Layanan</h3>
               <ul className="space-y-2">
                 <li><Link href="/servicego" className="text-sm text-gray-600 hover:text-blue-700 block">Layanan Perbaikan</Link></li>
                 <li><Link href="/servicego#screen-repair" className="text-sm text-gray-600 hover:text-blue-700 block">Perbaikan Layar</Link></li>
@@ -177,7 +177,7 @@ export default function HomePage() {
             </div>
             
             <div>
-              <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-900">Dukungan</h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-4 text-[#002B50]">Dukungan</h3>
               <ul className="space-y-2">
                 <li><Link href="/contact" className="text-sm text-gray-600 hover:text-blue-700 block">Hubungi Kami</Link></li>
                 <li><Link href="/faq" className="text-sm text-gray-600 hover:text-blue-700 block">FAQ</Link></li>
@@ -187,7 +187,7 @@ export default function HomePage() {
             </div>
           </div>
           
-          <div className="border-t border-gray-200 mt-12 pt-8 text-center text-sm text-gray-500">
+          <div className="border-t border-gray-200 mt-12 pt-8 text-center text-sm text-[#002B50]/70">
             <p>&copy; {new Date().getFullYear()} GadgetPlan. Semua hak dilindungi.</p>
           </div>
         </div>

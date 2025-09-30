@@ -123,7 +123,7 @@ export default function ServiceGoPage() {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative pt-[50px] pb-20 mt-0">
+      <section className="relative pt-[50px] pb-20 mt-0 px-[154px]">
         <div className="container mx-auto max-w-6xl px-4">
           <div className="flex flex-col items-center justify-center text-center">
             <div className="w-full md:w-3/4 lg:w-2/3 mb-8 md:mb-0">
@@ -145,8 +145,8 @@ export default function ServiceGoPage() {
       </section>
 
       {/* Booking Form */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-4xl">
+      <section className="py-16 px-[154px]">
+        <div className="container mx-auto max-w-4xl px-4">
           <div className="shadow-lg rounded-2xl overflow-hidden border border-[#002B50]/20 bg-white">
             <div className="bg-white text-[#002B50] text-center py-6 border-b border-[#002B50]/20">
               <h2 className="text-2xl font-bold">Pesan Layanan Anda</h2>
@@ -268,7 +268,7 @@ export default function ServiceGoPage() {
                         onClick={() => setSelectedTechnician(tech.id)}
                       >
                         <div className="flex items-center">
-                          <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16" />
+                          <div className="bg-[#002B50]/20 border-2 border-dashed rounded-xl w-16 h-16" />
                           <div className="ml-4">
                             <h4 className="font-semibold text-[#002B50]">{tech.name}</h4>
                             <p className="text-sm text-[#002B50]/80">{tech.expertise.join(', ')}</p>
@@ -299,8 +299,8 @@ export default function ServiceGoPage() {
       </section>
 
       {/* Services Overview */}
-      <section className="py-16 px-4 bg-[#E6F0FF]">
-        <div className="container mx-auto max-w-6xl">
+      <section className="py-16 bg-[#E6F0FF] px-[154px]">
+        <div className="container mx-auto max-w-6xl px-4">
           <h2 className="text-3xl font-bold text-center mb-4 text-[#002B50]">Our Repair Services</h2>
           <p className="text-center text-[#002B50]/80 mb-12 max-w-2xl mx-auto">
             We offer professional repair services for all types of devices with certified technicians
@@ -312,7 +312,7 @@ export default function ServiceGoPage() {
                 <CardHeader>
                   <CardTitle className="text-xl flex items-center text-[#002B50]">
                     <div className="bg-[#002B50]/10 p-2 rounded-lg mr-3">
-                      <div className="bg-gray-200 border-2 border-dashed rounded-xl w-8 h-8" />
+                      <div className="bg-[#002B50]/20 border-2 border-dashed rounded-xl w-8 h-8" />
                     </div>
                     {service.name}
                   </CardTitle>
@@ -332,7 +332,7 @@ export default function ServiceGoPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white text-gray-800 border-t border-gray-200">
+      <footer className="bg-white text-[#002B50] border-t border-[#002B50]/20 px-[154px]">
         <div className="py-12">
           <div className="container mx-auto px-4 max-w-6xl">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -374,7 +374,7 @@ export default function ServiceGoPage() {
               </div>
             </div>
             
-            <div className="border-t border-gray-200 mt-12 pt-8 text-center">
+            <div className="border-t border-[#002B50]/20 mt-12 pt-8 text-center">
               <p className="text-sm text-[#002B50]/80">&copy; {new Date().getFullYear()} GadgetPlan. Semua hak dilindungi.</p>
             </div>
           </div>

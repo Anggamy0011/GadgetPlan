@@ -57,7 +57,7 @@ export default function BlogPage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-[50px] pb-16">
+      <section className="pt-[50px] pb-16 px-[154px]">
         <div className="container mx-auto px-4 text-center">
           <ShiningText
             text="Blog"
@@ -71,12 +71,12 @@ export default function BlogPage() {
       </section>
 
       {/* Featured like news site */}
-      <section className="pb-10">
+      <section className="pb-10 px-[154px]">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
             {/* Featured main */}
-            <Card className="lg:col-span-2 border border-gray-200 bg-white rounded-2xl overflow-hidden">
-              <div className="bg-gray-100 h-56 sm:h-72 w-full" />
+            <Card className="lg:col-span-2 border border-[#002B50]/20 bg-white rounded-2xl overflow-hidden">
+              <div className="bg-[#002B50]/10 h-56 sm:h-72 w-full" />
               <CardHeader>
                 <CardTitle className="text-[#002B50] text-2xl leading-snug">{posts[0].title}</CardTitle>
                 <CardDescription className="text-[#002B50]/60">
@@ -93,7 +93,7 @@ export default function BlogPage() {
             {/* Sidebar list */}
             <div className="space-y-4">
               {posts.slice(1).map((post) => (
-                <Card key={post.id} className="border border-gray-200 bg-white rounded-2xl hover:shadow-md transition-shadow">
+                <Card key={post.id} className="border border-[#002B50]/20 bg-white rounded-2xl hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-[#002B50] text-lg leading-snug">{post.title}</CardTitle>
                     <CardDescription className="text-[#002B50]/60">
@@ -111,11 +111,11 @@ export default function BlogPage() {
       </section>
 
       {/* List */}
-      <section className="pb-20">
+      <section className="pb-20 px-[154px]">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {posts.map((post) => (
-              <Card key={post.id} className="border border-gray-200 bg-white hover:shadow-md transition-shadow rounded-2xl">
+              <Card key={post.id} className="border border-[#002B50]/20 bg-white hover:shadow-md transition-shadow rounded-2xl">
                 <CardHeader>
                   <CardTitle className="text-[#002B50] text-xl leading-snug">{post.title}</CardTitle>
                   <CardDescription className="text-[#002B50]/60">
@@ -147,7 +147,7 @@ export default function BlogPage() {
       </section>
 
       {/* Site Footer (matching other pages) */}
-      <footer className="bg-white text-gray-800 border-t border-gray-200">
+      <footer className="bg-white text-[#002B50] border-t border-[#002B50]/20 px-[154px]">
         <div className="py-12">
           <div className="container mx-auto px-4 max-w-6xl">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -155,10 +155,10 @@ export default function BlogPage() {
                 <div className="flex items-center mb-4">
                   <img src="/logo-gadgetplan-biru.png" alt="Logo GadgetPlan" className="w-[88px] h-[56px] object-contain" />
                 </div>
-                <p className="text-sm text-gray-600">Tujuan satu pintu untuk iPhone, aksesori, dan layanan perbaikan profesional.</p>
+                <p className="text-sm text-[#002B50]/80">Tujuan satu pintu untuk iPhone, aksesori, dan layanan perbaikan profesional.</p>
               </div>
               <div>
-                <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-900">Belanja</h3>
+                <h3 className="text-base sm:text-lg font-semibold mb-4 text-[#002B50]">Belanja</h3>
                 <ul className="space-y-2">
                   <li><a href="/products" className="text-sm text-gray-600 hover:text-blue-700 block">Semua Produk</a></li>
                   <li><a href="/products?category=iphone" className="text-sm text-gray-600 hover:text-blue-700 block">iPhone</a></li>
@@ -167,7 +167,7 @@ export default function BlogPage() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-900">Layanan</h3>
+                <h3 className="text-base sm:text-lg font-semibold mb-4 text-[#002B50]">Layanan</h3>
                 <ul className="space-y-2">
                   <li><a href="/servicego" className="text-sm text-gray-600 hover:text-blue-700 block">Layanan Perbaikan</a></li>
                   <li><a href="/servicego#screen-repair" className="text-sm text-gray-600 hover:text-blue-700 block">Perbaikan Layar</a></li>
@@ -176,7 +176,7 @@ export default function BlogPage() {
                 </ul>
               </div>
               <div>
-                <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-900">Dukungan</h3>
+                <h3 className="text-base sm:text-lg font-semibold mb-4 text-[#002B50]">Dukungan</h3>
                 <ul className="space-y-2">
                   <li><a href="/contact" className="text-sm text-gray-600 hover:text-blue-700 block">Hubungi Kami</a></li>
                   <li><a href="/faq" className="text-sm text-gray-600 hover:text-blue-700 block">FAQ</a></li>
@@ -185,7 +185,7 @@ export default function BlogPage() {
                 </ul>
               </div>
             </div>
-            <div className="border-t border-gray-200 mt-12 pt-8 text-center text-sm text-gray-500">
+            <div className="border-t border-[#002B50]/20 mt-12 pt-8 text-center text-sm text-[#002B50]/70">
               <p>&copy; {new Date().getFullYear()} GadgetPlan. Semua hak dilindungi.</p>
             </div>
           </div>

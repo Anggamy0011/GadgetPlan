@@ -137,7 +137,7 @@ export default function ProductsPage() {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-[50px] pb-16">
+      <section className="pt-[50px] pb-16 px-[154px]">
         <div className="container mx-auto px-4">
           <div className="text-center">
             <ShiningText text="My Product" className="text-3xl md:text-4xl font-bold text-[#002B50] mb-4" duration={3} />
@@ -148,11 +148,11 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-[154px] py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
           <div className="lg:w-1/4">
-            <Card className="sticky top-4 border-0 shadow-lg bg-white">
+            <Card className="sticky top-24 border-0 shadow-lg bg-white">
               <CardHeader className="bg-[#002B50] text-white rounded-t-lg py-4">
                 <CardTitle className="text-lg font-semibold px-2">
                   Filter Product
@@ -176,10 +176,10 @@ export default function ProductsPage() {
                 <div>
                   <div className="relative">
                     <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                      <SelectTrigger className="w-full px-3 h-12 bg-white border-gray-200 text-[#002B50] focus:ring-0 focus:border-gray-300">
+                      <SelectTrigger className="w-full px-3 h-12 bg-white border-[#002B50]/20 text-[#002B50] focus:ring-0 focus:border-[#002B50]/30">
                         <SelectValue placeholder="Pilih kategori" />
                       </SelectTrigger>
-                      <SelectContent className="bg-white border-gray-200">
+                      <SelectContent className="bg-white border-[#002B50]/20">
                         {mockCategories.map((category) => (
                           <SelectItem key={category.id} value={category.id} className="text-[#002B50] focus:bg-white data-[state=checked]:bg-white data-[state=checked]:text-[#002B50]">
                             {category.name}
@@ -211,7 +211,7 @@ export default function ProductsPage() {
                 {filteredProducts.map((product) => (
                   <Link key={product.id} href={`/products/${product.id}`}>
                     <Card className="overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 bg-white h-full flex flex-col">
-                      <div className="aspect-square bg-gray-50 flex items-center justify-center p-6">
+                      <div className="aspect-square bg-[#002B50]/5 flex items-center justify-center p-6">
                         {product.image_urls && product.image_urls[0] ? (
                           <img 
                             src={product.image_urls[0]} 
@@ -219,7 +219,7 @@ export default function ProductsPage() {
                             className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
                           />
                         ) : (
-                          <div className="text-gray-400 flex flex-col items-center">
+                          <div className="text-[#002B50]/40 flex flex-col items-center">
                             {product.category_id === 1 ? (
                               <Smartphone className="h-16 w-16 mb-2" />
                             ) : (
@@ -236,7 +236,7 @@ export default function ProductsPage() {
                             {product.category_name}
                           </Badge>
                         </div>
-                        <p className="text-gray-600 text-sm mb-4 flex-grow">
+                        <p className="text-[#002B50]/70 text-sm mb-4 flex-grow">
                           {product.description}
                         </p>
                         <div className="mt-auto pt-2">
@@ -250,7 +250,7 @@ export default function ProductsPage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 bg-gray-50 rounded-xl">
+              <div className="text-center py-12 bg-[#002B50]/5 rounded-xl">
                 <h3 className="text-xl font-medium text-[#002B50]">Product tidak ditemukan</h3>
                 <p className="text-[#002B50]/70 mt-2">Coba sesuaikan filter Anda</p>
                 <Button 
@@ -270,7 +270,7 @@ export default function ProductsPage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white text-gray-800 border-t border-gray-200">
+      <footer className="bg-white text-gray-800 border-t border-[#002B50]/20 px-[154px]">
         <div className="py-12">
           <div className="container mx-auto px-4 max-w-6xl">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -278,13 +278,13 @@ export default function ProductsPage() {
                 <div className="flex items-center mb-4">
                   <img src="/logo-gadgetplan-biru.png" alt="Logo GadgetPlan" className="w-[88px] h-[56px] object-contain" />
                 </div>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-[#002B50]/80">
                   Tujuan satu pintu untuk iPhone, aksesori, dan layanan perbaikan profesional.
                 </p>
               </div>
               
               <div>
-                <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-900">Belanja</h3>
+                <h3 className="text-base sm:text-lg font-semibold mb-4 text-[#002B50]">Belanja</h3>
                 <ul className="space-y-2">
                   <li><a href="/products" className="text-sm text-gray-600 hover:text-blue-700 block">Semua Produk</a></li>
                   <li><a href="/products?category=iphone" className="text-sm text-gray-600 hover:text-blue-700 block">iPhone</a></li>
@@ -294,7 +294,7 @@ export default function ProductsPage() {
               </div>
               
               <div>
-                <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-900">Layanan</h3>
+                <h3 className="text-base sm:text-lg font-semibold mb-4 text-[#002B50]">Layanan</h3>
                 <ul className="space-y-2">
                   <li><a href="/servicego" className="text-sm text-gray-600 hover:text-blue-700 block">Layanan Perbaikan</a></li>
                   <li><a href="/servicego#screen-repair" className="text-sm text-gray-600 hover:text-blue-700 block">Perbaikan Layar</a></li>
@@ -304,7 +304,7 @@ export default function ProductsPage() {
               </div>
               
               <div>
-                <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-900">Dukungan</h3>
+                <h3 className="text-base sm:text-lg font-semibold mb-4 text-[#002B50]">Dukungan</h3>
                 <ul className="space-y-2">
                   <li><a href="/contact" className="text-sm text-gray-600 hover:text-blue-700 block">Hubungi Kami</a></li>
                   <li><a href="/faq" className="text-sm text-gray-600 hover:text-blue-700 block">FAQ</a></li>
@@ -314,7 +314,7 @@ export default function ProductsPage() {
               </div>
             </div>
             
-            <div className="border-t border-gray-200 mt-12 pt-8 text-center text-sm text-gray-500">
+            <div className="border-t border-[#002B50]/20 mt-12 pt-8 text-center text-sm text-[#002B50]/70">
               <p>&copy; {new Date().getFullYear()} GadgetPlan. Semua hak dilindungi.</p>
             </div>
           </div>
