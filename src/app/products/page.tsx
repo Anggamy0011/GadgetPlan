@@ -5,13 +5,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, Smartphone, Headphones } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Search, Smartphone, Headphones, Computer, Palette, HardDrive } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
 import { ShiningText } from '@/components/ui/shining-text';
 
-// Define product type
+// Define product type with additional fields
 type Product = {
   id: number;
   name: string;
@@ -22,9 +22,12 @@ type Product = {
   category_id: number;
   category_name: string;
   rating: number;
+  condition: 'ibox' | 'inter' | 'minus' | 'no_minus';
+  color: string;
+  storage: string;
 };
 
-// Mock data for products
+// Mock data for products with additional fields
 const mockProducts: Product[] = [
   {
     id: 1,
@@ -35,7 +38,10 @@ const mockProducts: Product[] = [
     image_urls: ['https://placehold.co/300x300?text=iPhone+15+Pro'],
     category_id: 1,
     category_name: 'iPhone',
-    rating: 4.9
+    rating: 4.9,
+    condition: 'ibox',
+    color: 'Blue',
+    storage: '256GB'
   },
   {
     id: 2,
@@ -46,7 +52,10 @@ const mockProducts: Product[] = [
     image_urls: ['https://placehold.co/300x300?text=iPhone+14'],
     category_id: 1,
     category_name: 'iPhone',
-    rating: 4.7
+    rating: 4.7,
+    condition: 'inter',
+    color: 'Black',
+    storage: '128GB'
   },
   {
     id: 3,
@@ -57,7 +66,10 @@ const mockProducts: Product[] = [
     image_urls: ['https://placehold.co/300x300?text=AirPods+Pro'],
     category_id: 2,
     category_name: 'Aksesoris',
-    rating: 4.8
+    rating: 4.8,
+    condition: 'no_minus',
+    color: 'White',
+    storage: 'N/A'
   },
   {
     id: 4,
@@ -68,7 +80,10 @@ const mockProducts: Product[] = [
     image_urls: ['https://placehold.co/300x300?text=Wireless+Charger'],
     category_id: 2,
     category_name: 'Aksesoris',
-    rating: 4.5
+    rating: 4.5,
+    condition: 'no_minus',
+    color: 'Black',
+    storage: 'N/A'
   },
   {
     id: 5,
@@ -77,9 +92,12 @@ const mockProducts: Product[] = [
     price: 299000,
     stock_quantity: 100,
     image_urls: ['https://placehold.co/300x300?text=Casing'],
-    category_id: 3,
+    category_id: 2,
     category_name: 'Aksesoris',
-    rating: 4.3
+    rating: 4.3,
+    condition: 'no_minus',
+    color: 'Red',
+    storage: 'N/A'
   },
   {
     id: 6,
@@ -90,29 +108,107 @@ const mockProducts: Product[] = [
     image_urls: ['https://placehold.co/300x300?text=iPhone+13'],
     category_id: 1,
     category_name: 'iPhone',
-    rating: 4.6
+    rating: 4.6,
+    condition: 'minus',
+    color: 'White',
+    storage: '128GB'
+  },
+  {
+    id: 7,
+    name: 'MacBook Air M2',
+    description: 'Tipis, ringan, dan bertenaga dengan chip M2',
+    price: 18999000,
+    stock_quantity: 12,
+    image_urls: ['https://placehold.co/300x300?text=MacBook+Air'],
+    category_id: 3,
+    category_name: 'MacBook',
+    rating: 4.8,
+    condition: 'ibox',
+    color: 'Silver',
+    storage: '256GB'
+  },
+  {
+    id: 8,
+    name: 'MacBook Pro M3',
+    description: 'Performa tinggi untuk profesional kreatif',
+    price: 25999000,
+    stock_quantity: 5,
+    image_urls: ['https://placehold.co/300x300?text=MacBook+Pro'],
+    category_id: 3,
+    category_name: 'MacBook',
+    rating: 4.9,
+    condition: 'inter',
+    color: 'Space Gray',
+    storage: '512GB'
   }
 ];
 
-// Mock data for categories
-type Category = {
-  id: string;
-  name: string;
+// Define filter options
+type FilterOptions = {
+  categories: {
+    id: string;
+    name: string;
+    count: number;
+  }[];
+  conditions: {
+    id: string;
+    name: string;
+    count: number;
+  }[];
+  colors: {
+    id: string;
+    name: string;
+    count: number;
+  }[];
+  storage: {
+    id: string;
+    name: string;
+    count: number;
+  }[];
 };
-
-const mockCategories: Category[] = [
-  { id: 'all', name: 'Semua Kategori' },
-  { id: '1', name: 'iPhone' },
-  { id: '2', name: 'Aksesoris' }
-];
 
 export default function ProductsPage() {
   const [products] = useState<Product[]>(mockProducts);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(mockProducts);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  
+  // Filter states
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const [selectedStorage, setSelectedStorage] = useState<string[]>([]);
 
-  // Filter products based on search term and category
+  // Calculate filter options with counts
+  const filterOptions: FilterOptions = {
+    categories: [
+      { id: 'all', name: 'Semua Kategori', count: products.length },
+      { id: 'iPhone', name: 'iPhone', count: products.filter(p => p.category_name === 'iPhone').length },
+      { id: 'Aksesoris', name: 'Aksesoris', count: products.filter(p => p.category_name === 'Aksesoris').length },
+      { id: 'MacBook', name: 'MacBook', count: products.filter(p => p.category_name === 'MacBook').length }
+    ],
+    conditions: [
+      { id: 'ibox', name: 'Ibox', count: products.filter(p => p.condition === 'ibox').length },
+      { id: 'inter', name: 'Inter', count: products.filter(p => p.condition === 'inter').length },
+      { id: 'minus', name: 'Minus', count: products.filter(p => p.condition === 'minus').length },
+      { id: 'no_minus', name: 'No Minus', count: products.filter(p => p.condition === 'no_minus').length }
+    ],
+    colors: [
+      { id: 'Black', name: 'Hitam', count: products.filter(p => p.color === 'Black').length },
+      { id: 'White', name: 'Putih', count: products.filter(p => p.color === 'White').length },
+      { id: 'Blue', name: 'Biru', count: products.filter(p => p.color === 'Blue').length },
+      { id: 'Red', name: 'Merah', count: products.filter(p => p.color === 'Red').length },
+      { id: 'Silver', name: 'Silver', count: products.filter(p => p.color === 'Silver').length },
+      { id: 'Space Gray', name: 'Space Gray', count: products.filter(p => p.color === 'Space Gray').length }
+    ],
+    storage: [
+      { id: '128GB', name: '128GB', count: products.filter(p => p.storage === '128GB').length },
+      { id: '256GB', name: '256GB', count: products.filter(p => p.storage === '256GB').length },
+      { id: '512GB', name: '512GB', count: products.filter(p => p.storage === '512GB').length },
+      { id: '1TB', name: '1TB', count: products.filter(p => p.storage === '1TB').length }
+    ]
+  };
+
+  // Filter products based on all filter criteria
   useEffect(() => {
     let result = [...products];
 
@@ -125,12 +221,91 @@ export default function ProductsPage() {
     }
 
     // Apply category filter
-    if (selectedCategory !== 'all') {
-      result = result.filter(product => product.category_id === parseInt(selectedCategory));
+    if (selectedCategories.length > 0 && !selectedCategories.includes('all')) {
+      result = result.filter(product => selectedCategories.includes(product.category_name));
+    }
+
+    // Apply condition filter
+    if (selectedConditions.length > 0) {
+      result = result.filter(product => selectedConditions.includes(product.condition));
+    }
+
+    // Apply color filter
+    if (selectedColors.length > 0) {
+      result = result.filter(product => selectedColors.includes(product.color));
+    }
+
+    // Apply storage filter
+    if (selectedStorage.length > 0) {
+      result = result.filter(product => selectedStorage.includes(product.storage));
     }
 
     setFilteredProducts(result);
-  }, [searchTerm, selectedCategory, products]);
+  }, [searchTerm, selectedCategories, selectedConditions, selectedColors, selectedStorage, products]);
+
+  // Handle category selection
+  const handleCategoryChange = (categoryId: string) => {
+    if (categoryId === 'all') {
+      // If 'all' is selected, clear other selections
+      if (selectedCategories.includes('all')) {
+        setSelectedCategories([]);
+      } else {
+        setSelectedCategories(['all']);
+      }
+    } else {
+      // Remove 'all' when other category is selected
+      let newSelections = [...selectedCategories];
+      if (newSelections.includes('all')) {
+        newSelections = newSelections.filter(id => id !== 'all');
+      }
+      
+      if (newSelections.includes(categoryId)) {
+        newSelections = newSelections.filter(id => id !== categoryId);
+      } else {
+        newSelections.push(categoryId);
+      }
+      
+      setSelectedCategories(newSelections);
+    }
+  };
+
+  // Handle other filter changes
+  const handleFilterChange = (filterType: 'condition' | 'color' | 'storage', value: string) => {
+    let currentSelections: string[];
+    let setter: React.Dispatch<React.SetStateAction<string[]>>;
+    
+    switch (filterType) {
+      case 'condition':
+        currentSelections = selectedConditions;
+        setter = setSelectedConditions;
+        break;
+      case 'color':
+        currentSelections = selectedColors;
+        setter = setSelectedColors;
+        break;
+      case 'storage':
+        currentSelections = selectedStorage;
+        setter = setSelectedStorage;
+        break;
+      default:
+        return;
+    }
+    
+    const newSelections = currentSelections.includes(value)
+      ? currentSelections.filter(item => item !== value)
+      : [...currentSelections, value];
+    
+    setter(newSelections);
+  };
+
+  // Reset all filters
+  const resetFilters = () => {
+    setSearchTerm('');
+    setSelectedCategories([]);
+    setSelectedConditions([]);
+    setSelectedColors([]);
+    setSelectedStorage([]);
+  };
 
   return (
     <div className="min-h-screen bg-[#FDFEFF]">
@@ -142,7 +317,7 @@ export default function ProductsPage() {
           <div className="text-center">
             <ShiningText text="My Product" className="text-3xl md:text-4xl font-bold text-[#002B50] mb-4" duration={3} />
             <p className="text-base md:text-lg text-[#002B50]/70 max-w-2xl mx-auto">
-              Temukan berbagai produk iPhone dan aksesoris berkualitas tinggi
+              Temukan berbagai produk iPhone, MacBook, dan aksesoris berkualitas tinggi
             </p>
           </div>
         </div>
@@ -150,12 +325,12 @@ export default function ProductsPage() {
 
       <div className="container mx-auto px-[154px] py-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar */}
+          {/* Sidebar - Filters */}
           <div className="lg:w-1/4">
             <Card className="sticky top-24 border-0 shadow-lg bg-white">
               <CardHeader className="bg-[#002B50] text-white rounded-t-lg py-4">
                 <CardTitle className="text-lg font-semibold px-2">
-                  Filter Product
+                  Filter Produk
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6 py-6">
@@ -172,23 +347,122 @@ export default function ProductsPage() {
                   </div>
                 </div>
 
-                {/* Categories */}
+                {/* Categories Filter */}
                 <div>
-                  <div className="relative">
-                    <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                      <SelectTrigger className="w-full px-3 h-12 bg-white border-[#002B50]/20 text-[#002B50] focus:ring-0 focus:border-[#002B50]/30">
-                        <SelectValue placeholder="Pilih kategori" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white border-[#002B50]/20">
-                        {mockCategories.map((category) => (
-                          <SelectItem key={category.id} value={category.id} className="text-[#002B50] focus:bg-white data-[state=checked]:bg-white data-[state=checked]:text-[#002B50]">
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                  <h3 className="font-semibold text-[#002B50] mb-3 flex items-center">
+                    <Smartphone className="h-4 w-4 mr-2" />
+                    Kategori
+                  </h3>
+                  <div className="space-y-2">
+                    {filterOptions.categories.map((category) => (
+                      <div key={category.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`category-${category.id}`}
+                          checked={
+                            category.id === 'all' 
+                              ? selectedCategories.includes('all') 
+                              : selectedCategories.includes(category.name)
+                          }
+                          onCheckedChange={() => handleCategoryChange(category.id)}
+                          className="border-[#002B50] !bg-white data-[state=checked]:bg-white data-[state=checked]:border-[#002B50] data-[state=checked]:text-[#002B50]"
+                        />
+                        <label 
+                          htmlFor={`category-${category.id}`} 
+                          className="text-sm font-medium text-[#002B50]/80 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {category.name} <span className="text-[#002B50]/60">({category.count})</span>
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
+
+                {/* Condition Filter */}
+                <div>
+                  <h3 className="font-semibold text-[#002B50] mb-3 flex items-center">
+                    <Smartphone className="h-4 w-4 mr-2" />
+                    Kondisi
+                  </h3>
+                  <div className="space-y-2">
+                    {filterOptions.conditions.map((condition) => (
+                      <div key={condition.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`condition-${condition.id}`}
+                          checked={selectedConditions.includes(condition.id)}
+                          onCheckedChange={() => handleFilterChange('condition', condition.id)}
+                          className="border-[#002B50] !bg-white data-[state=checked]:bg-white data-[state=checked]:border-[#002B50] data-[state=checked]:text-[#002B50]"
+                        />
+                        <label 
+                          htmlFor={`condition-${condition.id}`} 
+                          className="text-sm font-medium text-[#002B50]/80 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {condition.name} <span className="text-[#002B50]/60">({condition.count})</span>
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Color Filter */}
+                <div>
+                  <h3 className="font-semibold text-[#002B50] mb-3 flex items-center">
+                    <Palette className="h-4 w-4 mr-2" />
+                    Warna
+                  </h3>
+                  <div className="space-y-2">
+                    {filterOptions.colors.map((color) => (
+                      <div key={color.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`color-${color.id}`}
+                          checked={selectedColors.includes(color.id)}
+                          onCheckedChange={() => handleFilterChange('color', color.id)}
+                          className="border-[#002B50] !bg-white data-[state=checked]:bg-white data-[state=checked]:border-[#002B50] data-[state=checked]:text-[#002B50]"
+                        />
+                        <label 
+                          htmlFor={`color-${color.id}`} 
+                          className="text-sm font-medium text-[#002B50]/80 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {color.name} <span className="text-[#002B50]/60">({color.count})</span>
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Storage Filter */}
+                <div>
+                  <h3 className="font-semibold text-[#002B50] mb-3 flex items-center">
+                    <HardDrive className="h-4 w-4 mr-2" />
+                    Penyimpanan
+                  </h3>
+                  <div className="space-y-2">
+                    {filterOptions.storage.map((storage) => (
+                      <div key={storage.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`storage-${storage.id}`}
+                          checked={selectedStorage.includes(storage.id)}
+                          onCheckedChange={() => handleFilterChange('storage', storage.id)}
+                          className="border-[#002B50] !bg-white data-[state=checked]:bg-white data-[state=checked]:border-[#002B50] data-[state=checked]:text-[#002B50]"
+                        />
+                        <label 
+                          htmlFor={`storage-${storage.id}`} 
+                          className="text-sm font-medium text-[#002B50]/80 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {storage.name} <span className="text-[#002B50]/60">({storage.count})</span>
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Reset Filters Button */}
+                <Button 
+                  variant="outline" 
+                  className="w-full border-[#002B50] text-[#002B50] bg-white hover:bg-white focus:bg-white active:bg-white"
+                  onClick={resetFilters}
+                >
+                  Reset Semua Filter
+                </Button>
               </CardContent>
             </Card>
           </div>
@@ -197,11 +471,13 @@ export default function ProductsPage() {
           <div className="lg:w-3/4">
             {/* Results Header */}
             <div className="mt-4 mb-6">
-              <div className="flex flex-col">
-                <h2 className="text-2xl font-bold text-[#002B50]">Product</h2>
-                <p className="text-[#002B50]/70 mt-1">
-                  Menampilkan {filteredProducts.length} dari {products.length} produk
-                </p>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-[#002B50]">Produk</h2>
+                  <p className="text-[#002B50]/70 mt-1">
+                    Menampilkan {filteredProducts.length} dari {products.length} produk
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -211,7 +487,7 @@ export default function ProductsPage() {
                 {filteredProducts.map((product) => (
                   <Link key={product.id} href={`/products/${product.id}`}>
                     <Card className="overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-300 bg-white h-full flex flex-col">
-                      <div className="aspect-square bg-[#002B50]/5 flex items-center justify-center p-6">
+                      <div className="aspect-square bg-white flex items-center justify-center p-6">
                         {product.image_urls && product.image_urls[0] ? (
                           <img 
                             src={product.image_urls[0]} 
@@ -220,8 +496,10 @@ export default function ProductsPage() {
                           />
                         ) : (
                           <div className="text-[#002B50]/40 flex flex-col items-center">
-                            {product.category_id === 1 ? (
+                            {product.category_name === 'iPhone' ? (
                               <Smartphone className="h-16 w-16 mb-2" />
+                            ) : product.category_name === 'MacBook' ? (
+                              <Computer className="h-16 w-16 mb-2" />
                             ) : (
                               <Headphones className="h-16 w-16 mb-2" />
                             )}
@@ -232,14 +510,20 @@ export default function ProductsPage() {
                       <div className="p-4 flex-grow flex flex-col">
                         <div className="flex justify-between items-start mb-2">
                           <h3 className="text-lg font-semibold text-[#002B50]">{product.name}</h3>
-                          <Badge variant="secondary" className="bg-[#002B50]/10 text-[#002B50] border-[#002B50]/20">
+                          <Badge variant="secondary" className="bg-white text-[#002B50] border-[#002B50]">
                             {product.category_name}
                           </Badge>
                         </div>
+                        <p className="text-[#002B50]/70 text-sm mb-2">
+                          {product.condition === 'ibox' ? 'Ibox' : 
+                           product.condition === 'inter' ? 'Inter' : 
+                           product.condition === 'minus' ? 'Minus' : 'No Minus'}
+                        </p>
                         <p className="text-[#002B50]/70 text-sm mb-4 flex-grow">
                           {product.description}
                         </p>
                         <div className="mt-auto pt-2">
+                          <div className="text-sm text-[#002B50] mb-1">{product.storage}</div>
                           <span className="text-xl font-bold text-[#002B50]">
                             Rp {product.price.toLocaleString('en-US')}
                           </span>
@@ -250,16 +534,13 @@ export default function ProductsPage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 bg-[#002B50]/5 rounded-xl">
-                <h3 className="text-xl font-medium text-[#002B50]">Product tidak ditemukan</h3>
+              <div className="text-center py-12 bg-white rounded-xl">
+                <h3 className="text-xl font-medium text-[#002B50]">Produk tidak ditemukan</h3>
                 <p className="text-[#002B50]/70 mt-2">Coba sesuaikan filter Anda</p>
                 <Button 
                   variant="outline" 
-                  className="mt-6 border-[#002B50]/20 text-[#002B50] hover:bg-[#002B50]/5"
-                  onClick={() => {
-                    setSearchTerm('');
-                    setSelectedCategory('all');
-                  }}
+                  className="mt-6 border-[#002B50] text-[#002B50] bg-white hover:bg-white focus:bg-white active:bg-white"
+                  onClick={resetFilters}
                 >
                   Reset Filter
                 </Button>

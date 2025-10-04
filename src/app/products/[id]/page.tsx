@@ -224,7 +224,7 @@ export default function ProductDetailPage() {
           <div className="text-center">
             <ShiningText text="Product tidak ditemukan" className="text-2xl font-bold text-[#002B50]" duration={3} />
             <p className="text-[#002B50]/70 mt-2">Maaf, produk yang Anda cari tidak tersedia.</p>
-            <Button className="mt-6 bg-[#002B50] hover:bg-[#002B50]/90 text-[#FDFEFF]">
+            <Button className="mt-6 bg-white border border-[#002B50] text-[#002B50] hover:bg-[#002B50]/10">
               <Link href="/products">Kembali ke Product</Link>
             </Button>
           </div>
@@ -274,13 +274,13 @@ export default function ProductDetailPage() {
                     variant="ghost" 
                     size="icon"
                     onClick={() => setIsWishlisted(!isWishlisted)}
-                    className="text-[#002B50]/60 hover:text-red-500"
+                    className="text-[#002B50]/60 hover:text-[#002B50]"
                   >
-                    <Heart className={`h-6 w-6 ${isWishlisted ? 'fill-red-500 text-red-500' : ''}`} />
+                    <Heart className={`h-6 w-6 ${isWishlisted ? 'fill-[#002B50] text-[#002B50]' : ''}`} />
                   </Button>
                 </div>
                 
-                <CardDescription className="text-gray-600 mt-4">
+                <CardDescription className="text-[#002B50]/80 mt-4">
                   {product.description}
                 </CardDescription>
               </CardHeader>
@@ -291,7 +291,7 @@ export default function ProductDetailPage() {
                   <div className="text-3xl font-bold text-[#002B50]">
                     Rp {finalPrice.toLocaleString('en-US')}
                   </div>
-                  <div className={`text-sm mt-1 ${product.stock_quantity > 5 ? 'text-green-600' : 'text-yellow-600'}`}>
+                  <div className={`text-sm mt-1 ${product.stock_quantity > 5 ? 'text-[#002B50]' : 'text-[#002B50]/80'}`}>
                     {product.stock_quantity > 5 
                       ? `Stok tersedia (${product.stock_quantity})` 
                       : `Stok terbatas (${product.stock_quantity})`}
@@ -306,24 +306,17 @@ export default function ProductDetailPage() {
                       {iPhoneColors.map((color) => (
                         <Button
                           key={color.id}
-                          variant={selectedColor.id === color.id ? "default" : "outline"}
-                          className={`w-10 h-10 rounded-full p-0 border-2 ${
+                          variant="outline"
+                          className={`border-[#002B50] text-[#002B50] hover:bg-[#002B50]/10 ${
                             selectedColor.id === color.id 
-                              ? "border-[#002B50] ring-2 ring-[#002B50]/30" 
-                              : "border-[#002B50]/30"
+                              ? "bg-[#002B50]/10 ring-2 ring-[#002B50]/30" 
+                              : ""
                           }`}
-                          style={{ backgroundColor: color.value }}
                           onClick={() => setSelectedColor(color)}
-                          aria-label={color.name}
                         >
-                          {selectedColor.id === color.id && (
-                            <span className="sr-only">{color.name} selected</span>
-                          )}
+                          {color.name}
                         </Button>
                       ))}
-                      <span className="self-center text-sm text-gray-600 ml-2">
-                        {selectedColor.name}
-                      </span>
                     </div>
                   </div>
                 )}
@@ -339,8 +332,8 @@ export default function ProductDetailPage() {
                           variant={selectedMemory.id === memory.id ? "default" : "outline"}
                           className={`${
                             selectedMemory.id === memory.id 
-                              ? "bg-[#002B50] text-[#FDFEFF] hover:bg-[#002B50]/90" 
-                              : "border-[#002B50]/30 text-[#002B50]/80 hover:bg-[#002B50]/5"
+                              ? "bg-[#002B50] text-white hover:bg-[#002B50]/90 border border-[#002B50]" 
+                              : "bg-white border-[#002B50] text-[#002B50] hover:bg-[#002B50]/10"
                           }`}
                           onClick={() => setSelectedMemory(memory)}
                         >
@@ -358,7 +351,7 @@ export default function ProductDetailPage() {
                     <Button 
                       variant="outline" 
                       size="icon"
-                      className="border-[#002B50]/30"
+                      className="bg-white border-[#002B50] text-[#002B50] hover:bg-[#002B50]/10"
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       disabled={quantity <= 1}
                     >
@@ -368,7 +361,7 @@ export default function ProductDetailPage() {
                     <Button 
                       variant="outline" 
                       size="icon"
-                      className="border-[#002B50]/30"
+                      className="bg-white border-[#002B50] text-[#002B50] hover:bg-[#002B50]/10"
                       onClick={() => setQuantity(Math.min(product.stock_quantity, quantity + 1))}
                       disabled={quantity >= product.stock_quantity}
                     >
@@ -381,10 +374,10 @@ export default function ProductDetailPage() {
               </CardContent>
               
               <CardFooter className="flex flex-col gap-3">
-                <Button className="w-full bg-[#002B50] hover:bg-[#002B50]/90 text-[#FDFEFF] py-6" aria-label="Tambah ke Keranjang">
+                <Button className="w-full bg-white border border-[#002B50] text-[#002B50] hover:bg-[#002B50]/10 py-6" aria-label="Tambah ke Keranjang">
                   <ShoppingCart className="h-5 w-5" />
                 </Button>
-                <Button variant="outline" className="w-full border-[#002B50] text-[#002B50] hover:bg-[#002B50]/5 py-6">
+                <Button variant="outline" className="w-full border-[#002B50] text-[#002B50] hover:bg-[#002B50]/10 py-6">
                   Beli Sekarang
                 </Button>
               </CardFooter>
@@ -397,19 +390,19 @@ export default function ProductDetailPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <div className="flex justify-between border-b border-gray-100 pb-3">
-                    <span className="text-gray-600">Kategori</span>
+                  <div className="flex justify-between border-b border-[#002B50]/20 pb-3">
+                    <span className="text-[#002B50]/70">Kategori</span>
                     <Badge variant="secondary" className="bg-[#002B50]/10 text-[#002B50] border-[#002B50]/20">
                       {product.category_name}
                     </Badge>
                   </div>
-                  <div className="flex justify-between border-b border-gray-100 pb-3">
-                    <span className="text-gray-600">Kapasitas Penyimpanan</span>
-                    <span className="font-medium">{selectedMemory.name}</span>
+                  <div className="flex justify-between border-b border-[#002B50]/20 pb-3">
+                    <span className="text-[#002B50]/70">Kapasitas Penyimpanan</span>
+                    <span className="font-medium text-[#002B50]">{selectedMemory.name}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Stok</span>
-                    <span className={`font-medium ${product.stock_quantity > 5 ? 'text-green-600' : 'text-yellow-600'}`}>
+                    <span className="text-[#002B50]/70">Stok</span>
+                    <span className={`font-medium ${product.stock_quantity > 5 ? 'text-[#002B50]' : 'text-[#002B50]/80'}`}>
                       {product.stock_quantity > 0 ? `${product.stock_quantity} unit tersedia` : 'Stok habis'}
                     </span>
                   </div>
@@ -419,26 +412,14 @@ export default function ProductDetailPage() {
           </div>
         </div>
         
-        {/* Product Reviews Section */}
-        <div className="mt-12">
-          <Card className="border border-[#002B50]/20 bg-white">
-            <CardHeader>
-              <CardTitle className="text-2xl text-[#002B50]">Ulasan Produk</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ProductReview 
-                reviews={mockReviews} 
-              />
-            </CardContent>
-          </Card>
-        </div>
+
         
         {/* Related Products */}
         <RelatedProducts products={mockRelatedProducts} />
       </div>
 
       {/* Footer */}
-      <footer className="bg-white text-gray-800 border-t border-[#002B50]/20 px-[154px]">
+      <footer className="bg-white text-[#002B50] border-t border-[#002B50] px-[154px]">
         <div className="py-12">
           <div className="container mx-auto px-4 max-w-6xl">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -453,29 +434,29 @@ export default function ProductDetailPage() {
                 <h3 className="text-base sm:text-lg font-semibold mb-4 text-[#002B50]">Belanja</h3>
                 <ul className="space-y-2">
                   <li><a href="/products" className="text-sm text-[#002B50]/70 hover:text-[#002B50] block">Semua Produk</a></li>
-                  <li><a href="/products?category=iphone" className="text-sm text-gray-600 hover:text-blue-700 block">iPhone</a></li>
-                  <li><a href="/products?category=accessories" className="text-sm text-gray-600 hover:text-blue-700 block">Aksesori</a></li>
-                  <li><a href="/products?category=case" className="text-sm text-gray-600 hover:text-blue-700 block">Casing</a></li>
+                  <li><a href="/products?category=iphone" className="text-sm text-[#002B50]/70 hover:text-[#002B50] block">iPhone</a></li>
+                  <li><a href="/products?category=accessories" className="text-sm text-[#002B50]/70 hover:text-[#002B50] block">Aksesori</a></li>
+                  <li><a href="/products?category=case" className="text-sm text-[#002B50]/70 hover:text-[#002B50] block">Casing</a></li>
                 </ul>
               </div>
               
               <div>
                 <h3 className="text-base sm:text-lg font-semibold mb-4 text-[#002B50]">Layanan</h3>
                 <ul className="space-y-2">
-                  <li><a href="/servicego" className="text-sm text-gray-600 hover:text-blue-700 block">Layanan Perbaikan</a></li>
-                  <li><a href="/servicego#screen-repair" className="text-sm text-gray-600 hover:text-blue-700 block">Perbaikan Layar</a></li>
-                  <li><a href="/servicego#battery-repair" className="text-sm text-gray-600 hover:text-blue-700 block">Ganti Baterai</a></li>
-                  <li><a href="/servicego#water-damage" className="text-sm text-gray-600 hover:text-blue-700 block">Kerusakan Air</a></li>
+                  <li><a href="/servicego" className="text-sm text-[#002B50]/70 hover:text-[#002B50] block">Layanan Perbaikan</a></li>
+                  <li><a href="/servicego#screen-repair" className="text-sm text-[#002B50]/70 hover:text-[#002B50] block">Perbaikan Layar</a></li>
+                  <li><a href="/servicego#battery-repair" className="text-sm text-[#002B50]/70 hover:text-[#002B50] block">Ganti Baterai</a></li>
+                  <li><a href="/servicego#water-damage" className="text-sm text-[#002B50]/70 hover:text-[#002B50] block">Kerusakan Air</a></li>
                 </ul>
               </div>
               
               <div>
                 <h3 className="text-base sm:text-lg font-semibold mb-4 text-[#002B50]">Dukungan</h3>
                 <ul className="space-y-2">
-                  <li><a href="/contact" className="text-sm text-gray-600 hover:text-blue-700 block">Hubungi Kami</a></li>
-                  <li><a href="/faq" className="text-sm text-gray-600 hover:text-blue-700 block">FAQ</a></li>
-                  <li><a href="/shipping" className="text-sm text-gray-600 hover:text-blue-700 block">Info Pengiriman</a></li>
-                  <li><a href="/warranty" className="text-sm text-gray-600 hover:text-blue-700 block">Garansi</a></li>
+                  <li><a href="/contact" className="text-sm text-[#002B50]/70 hover:text-[#002B50] block">Hubungi Kami</a></li>
+                  <li><a href="/faq" className="text-sm text-[#002B50]/70 hover:text-[#002B50] block">FAQ</a></li>
+                  <li><a href="/shipping" className="text-sm text-[#002B50]/70 hover:text-[#002B50] block">Info Pengiriman</a></li>
+                  <li><a href="/warranty" className="text-sm text-[#002B50]/70 hover:text-[#002B50] block">Garansi</a></li>
                 </ul>
               </div>
             </div>
